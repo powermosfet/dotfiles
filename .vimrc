@@ -1,114 +1,63 @@
-"Change the leader key
-let mapleader = ","
+"Pathogen!!!
+execute pathogen#infect()
 
-"Searching...
-set incsearch showmatch hlsearch
-nnoremap <leader><space> :noh<cr>
-set gdefault
-set ignorecase smartcase
+"Basic setup
+set nocompatible
+filetype plugin on
+set number
+let mapleader=','
+set encoding=utf-8
+set fileencoding=utf-8
 
+"Search
+set ignorecase
+set smartcase
+set incsearch
+set hlsearch
+nnoremap <esc> :noh<return><esc>
+nnoremap <C-L> :CtrlPLine<CR>
 
-"Turn on "normal" Regexp in search by default
-nnoremap / /\v
-vnoremap / /\v
-
-"Automatically change directory to that of the current file
-"Without breaking the Git plugin
-autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" && bufname("") !~ "COMMIT_EDITMSG$" | silent! lcd %:p:h:gs/ /\\ / | endif
-
-"Always show statusline
-set laststatus=2
-
-"Split windows
-nnoremap <leader>w <C-w>v<C-w>l
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-
-"Syntax highlighting
-syntax enable
-
-if has("win32")
-	"windows stuff...
-	"Custom statusline...
-	set statusline=[%l]:\ %F%m%r%h%w\ %y
-	"Set font
-	if has("gui_running")
-		set guifont=Droid_Sans_Mono:h10:cANSI
-	endif
-elseif has("unix")
-	"Linux stuff
-	"Put the Git branch (if any) in the status line
-	set statusline=[%l]%{GitBranch()}:\ %F%m%r%h%w\ %y
-	"Set font
-	if has("gui_running")
-		set guifont=Droid\ Sans\ Mono\ 10
-	endif
-endif
-
-"Make Ctrl-V paste in insert mode and command mode
-imap <C-V> <C-R>+
-cmap <C-V> <C-R>+
-
-"Make TAB do something useful in normal and visual mode
-nmap <tab> >>
-nmap <S-tab> <<
-vmap <tab> >
-vmap <S-tab> <
-
-"Open vimrc file
-nmap gv :e $MYVIMRC<CR>
-
-"Make indentation normal
-filetype indent on
-set tabstop=4
+"Tab
 set shiftwidth=4
+set tabstop=4
+set expandtab
+set smarttab
 
+"improve looks
+set cursorline
+colors flatland
+set guifont=Consolas:h11:cANSI
+syntax on
+set laststatus=2
+set statusline=[%l,%c]:\ %F%m%r%h%w\ %y
 "No toolbar
 set guioptions-=T
-"No menubar
-set guioptions-=m
 
-"Expand as much as possible when hitting tab
-set wildmode=longest:full
-set wildmenu
+" <C-V>-paste in insert mode
+inoremap <c-v> <c-r>+
 
-"Compile stuff..
-nmap <F5> :w<CR>:make d<CR>
-nmap <F8> :w<CR>:make<CR>
+nnoremap <leader>v :e $MYVIMRC<CR>
+nnoremap <leader>s :so $MYVIMRC<CR>
 
-"Try to save when leaving a buffer
-function AutoSave()
-  try
-    silent! w
-  catch
-  endtry
+nnoremap <C-left> <C-W><
+nnoremap <C-right> <C-W>>
+nnoremap <C-up> <C-W>+
+nnoremap <C-down> <C-W>-
+
+"Open all buffers in vertical diff view
+function! DiffView()
+	bufdo difft | vsplit
+	close	" Close the initial window
 endfunction
-autocmd BufLeave * call AutoSave()
+" nnoremap <leader>l :execute "bufdo difft | vsplit"<CR>:clo<CR>
+nnoremap <leader>d :call DiffView()<CR><CR>
 
-"Taglist
-map <F12> :TlistToggle<CR>
+nnoremap  <C-]>
 
-"Omni Completion
-set ofu=syntaxcomplete#Complete
-set completeopt=longest,menuone
+" XML formatter
+function! DoFormatXML() range
+	" Execute external formatter
+	exe ":silent %!python -c \'import\ sys;import\ xml.dom.minidom;s=sys.stdin.read();print\ xml.dom.minidom.parseString(s).toprettyxml()\'"
+endfunction
 
-"Dark is nice
-colors desert
-
-"numbers
-set nu
-"Relative line numbers - Does not work until 7.3
-set relativenumber
-
-"Count up and down
-nmap <leader>j <C-x>
-nmap <leader>k <C-a>
-
-"Insert blank lines
-nmap <CR> mzo<ESC>`z
-nmap <S-CR> mzO<ESC>`z
-
-"Newbie save
-nmap <C-s> :w<CR>
+nmap <silent> <leader>x :call DoFormatXML()<CR>
