@@ -61,3 +61,5 @@ function! DoFormatXML() range
 endfunction
 
 nmap <silent> <leader>x :call DoFormatXML()<CR>
+
+nnoremap <leader>gs :Gstatus<cr>
