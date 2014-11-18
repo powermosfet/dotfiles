@@ -57,7 +57,10 @@ nnoremap  <C-]>
 " XML formatter
 function! DoFormatXML() range
 	" Execute external formatter
-	exe ":silent %!python -c \'import\ sys;import\ xml.dom.minidom;s=sys.stdin.read();print\ xml.dom.minidom.parseString(s).toprettyxml()\'"
+	silent %!python -c "import sys;import xml.dom.minidom;s=sys.stdin.read();print xml.dom.minidom.parseString(s).toprettyxml()"
+	g/^\s*$/d   " Delete empty lines
+	g/^\w/-1,.j " Join tags with direct content
+	%s/>\ />/g  " Fix spaces created by join
 endfunction
 
 nmap <silent> <leader>x :call DoFormatXML()<CR>
