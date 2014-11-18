@@ -66,3 +66,4 @@ endfunction
 nmap <silent> <leader>x :call DoFormatXML()<CR>
 
 nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>= mmvip:Align=<cr>'m
