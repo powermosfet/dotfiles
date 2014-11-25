@@ -58,12 +58,16 @@ nnoremap  <C-]>
 function! DoFormatXML() range
 	" Execute external formatter
 	silent %!python -c "import sys;import xml.dom.minidom;s=sys.stdin.read();print xml.dom.minidom.parseString(s).toprettyxml()"
-	g/^\s*$/d   " Delete empty lines
-	g/^\w/-1,.j " Join tags with direct content
-	%s/>\ />/g  " Fix spaces created by join
+	silent! g/^\s*$/d   " Delete empty lines
+	silent! g/^\w/-1,.j " Join tags with direct content
+	silent! %s/>\ />/g  " Fix spaces created by join
 endfunction
 
 nmap <silent> <leader>x :call DoFormatXML()<CR>
+
+function! XStringToString() 
+	silent %!python -c "import sys;it=iter(sys.stdin.read());print ''.join(chr(int(a+next(it),16)) for a in it)"
+endfunction
 
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>= mmvip:Align=<cr>'m
