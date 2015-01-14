@@ -15,7 +15,13 @@ set smartcase
 set incsearch
 set hlsearch
 nnoremap <esc> :noh<return><esc>
-nnoremap <C-L> :CtrlPLine<CR>
+set nowrap
+
+" CtrlP
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'r'
+
 
 "Tab
 set shiftwidth=4
