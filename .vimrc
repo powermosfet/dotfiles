@@ -8,6 +8,7 @@ set number
 let mapleader=','
 set encoding=utf-8
 set fileencoding=utf-8
+set hidden
 
 "Search
 set ignorecase
@@ -22,6 +23,12 @@ let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'r'
 
+" netrw
+let g:netrw_banner       = 0
+let g:netrw_keepdir      = 0
+let g:netrw_liststyle    = 3
+let g:netrw_sort_options = 'i'
+nnoremap <F11> :Vex<cr>
 
 "Tab
 set shiftwidth=4
@@ -31,7 +38,8 @@ set smarttab
 
 "improve looks
 set cursorline
-colors flatland
+colors solarized
+call togglebg#map("<F5>")
 set guifont=Consolas:h11:cANSI
 syntax on
 set laststatus=2
