@@ -14,30 +14,46 @@ endif
 filetype on
 syntax on
 
-Bundle 'gmarik/vundle'
-Bundle 'tpope/vim-sensible'
-Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-ragtag'
-Bundle 'tpope/vim-sleuth'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-unimpaired'
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'pangloss/vim-javascript'
-Bundle 'flazz/vim-colorschemes'
-Bundle 'junegunn/vim-easy-align'
-Bundle 'kien/ctrlp.vim'
-Bundle 'scrooloose/nerdtree'
-Bundle 'scrooloose/syntastic'
+Plugin 'gmarik/vundle'
+Plugin 'tpope/vim-flagship'
+Plugin 'tpope/vim-sensible'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-ragtag'
+Plugin 'tpope/vim-sleuth'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'tpope/vim-speeddating'
+Plugin 'tpope/vim-dispatch'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'pangloss/vim-javascript'
+Plugin 'flazz/vim-colorschemes'
+Plugin 'junegunn/vim-easy-align'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'mxw/vim-jsx.git'
+" Bundle 'scrooloose/syntastic'
 
 "Basic setup
 let mapleader=','
 set hidden
-colors solarized
+silent! colors solarized
 set guioptions-=T
+set laststatus=2
+set showtabline=2
+set guioptions-=e
+set ignorecase
+set smartcase
+set tabstop=4
+set number
+nnoremap Y y$
+
+" syntax
+nnoremap [os :syntax on<cr>
+nnoremap ]os :syntax off<cr>
 
 "Easy align
-vnoremap <Enter> <Plug>(EasyAlign)
-nnoremap ga <Plug>(EasyAlign)
+vmap <Enter> <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
 
 " CtrlP
 let g:ctrlp_map = '<c-p>'
@@ -50,13 +66,13 @@ nnoremap <F11> :NERDTreeFocus<cr>
 " <C-V>-paste in insert mode
 inoremap <c-v> <c-r>+
 
-nnoremap <leader>v :e $MYVIMRC<CR>
+nnoremap <leader>v :e $MYVIMRC<CR>wgf
 nnoremap <leader>s :so $MYVIMRC<CR>
 
-"Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" "Syntastic
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
