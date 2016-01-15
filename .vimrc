@@ -11,8 +11,8 @@ else
 	set runtimepath+=~/.vim/bundle/vundle/
 	call vundle#rc()
 endif
-filetype on
-syntax on
+filetype plugin indent on
+syntax enable
 
 Plugin 'gmarik/vundle'
 Plugin 'tpope/vim-flagship'
@@ -46,6 +46,7 @@ set smartcase
 set tabstop=4
 set number
 nnoremap Y y$
+inoremap jj <esc>
 
 " syntax
 nnoremap [os :syntax on<cr>
