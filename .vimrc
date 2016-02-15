@@ -15,7 +15,6 @@ filetype plugin indent on
 syntax enable
 
 Plugin 'gmarik/vundle'
-Plugin 'tpope/vim-flagship'
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-ragtag'
@@ -25,13 +24,15 @@ Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-speeddating'
 Plugin 'tpope/vim-dispatch'
 Plugin 'altercation/vim-colors-solarized'
-Plugin 'pangloss/vim-javascript'
+Plugin 'othree/yajs.vim'
+Plugin 'gavocanov/vim-js-indent'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'mxw/vim-jsx.git'
-" Bundle 'scrooloose/syntastic'
+Plugin 'scrooloose/syntastic'
+Plugin 'elzr/vim-json'
 
 "Basic setup
 let mapleader=','
@@ -40,7 +41,7 @@ silent! colors solarized
 set guioptions-=T
 set laststatus=2
 set showtabline=2
-set guioptions-=e
+" set guioptions-=e
 set ignorecase
 set smartcase
 set tabstop=4
@@ -56,6 +57,9 @@ nnoremap ]os :syntax off<cr>
 vmap <Enter> <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
+" JSON
+let g:vim_json_syntax_conceal = 0
+
 " CtrlP
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
@@ -65,20 +69,24 @@ let g:ctrlp_working_path_mode = 'r'
 nnoremap <F11> :NERDTreeFocus<cr>
 
 " <C-V>-paste in insert mode
-inoremap <c-v> <c-r>+
+inoremap <c-v> <c-r><c-p>+
 
 nnoremap <leader>v :e $MYVIMRC<CR>wgf
 nnoremap <leader>s :so $MYVIMRC<CR>
 
 " "Syntastic
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_javascript_checkers = ['jshint']
+
+" Fugitive
+nmap <leader><space> :Gstatus<cr>
 
 "Open all buffers in vertical diff view
 function! DiffView()
