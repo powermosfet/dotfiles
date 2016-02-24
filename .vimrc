@@ -83,7 +83,7 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_javascript_checkers = ['jsxhint']
 
 " Fugitive
 nmap <leader><space> :Gstatus<cr>
@@ -99,9 +99,10 @@ nnoremap <leader>d :call DiffView()<CR><CR>
 " XML formatter
 function! DoFormatXML() range
 	" Execute external formatter
-	silent %!python -c "import sys;import xml.dom.minidom;s=sys.stdin.read();print xml.dom.minidom.parseString(s).toprettyxml()"
+	silent %!python -c "import sys;import xml.dom.minidom;s=sys.stdin.read();print(xml.dom.minidom.parseString(s).toprettyxml())"
 	silent! g/^\s*$/d   " Delete empty lines
 	silent! g/^\w/-1,.j " Join tags with direct content
 	silent! %s/>\ />/g  " Fix spaces created by join
+	silent! %s/\t/  /g  " Replace tabs
 endfunction
 nmap <silent> <leader>x :call DoFormatXML()<CR>
