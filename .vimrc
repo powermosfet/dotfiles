@@ -48,6 +48,7 @@ set tabstop=4
 set number
 nnoremap Y y$
 inoremap jj <esc>
+nnoremap <esc> :noh<cr>
 
 " syntax
 nnoremap [os :syntax on<cr>
@@ -81,7 +82,7 @@ set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 let g:syntastic_javascript_checkers = ['jsxhint']
 
