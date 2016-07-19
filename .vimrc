@@ -45,10 +45,14 @@ set showtabline=2
 set ignorecase
 set smartcase
 set tabstop=4
+set expandtab
+set smarttab
 set number
 nnoremap Y y$
 inoremap jj <esc>
 nnoremap <esc> :noh<cr>
+nnoremap <c-PageUp> :bp<cr>
+nnoremap <c-PageDown> :bn<cr>
 
 " syntax
 nnoremap [os :syntax on<cr>
@@ -68,6 +72,7 @@ let g:ctrlp_working_path_mode = 'r'
 
 " NERDTree
 nnoremap <F11> :NERDTreeFocus<cr>
+let NERDTreeIgnore=['\.pyc$']
 
 " <C-V>-paste in insert mode
 inoremap <c-v> <c-r><c-p>+
