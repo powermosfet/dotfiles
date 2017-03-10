@@ -16,7 +16,7 @@ else
 	set backupdir=~/.vim/backup//
 	set directory=~/.vim/swp//
 endif
-filetype plugin indent on
+filetype plugin on
 syntax enable
 
 Plugin 'gmarik/vundle'
@@ -56,9 +56,6 @@ set showtabline=2
 " set guioptions-=e
 set ignorecase
 set smartcase
-set tabstop=4
-set shiftwidth=4
-set expandtab
 set smarttab
 set number
 nnoremap Y y$
