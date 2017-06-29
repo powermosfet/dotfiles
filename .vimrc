@@ -36,15 +36,20 @@ Plugin 'junegunn/vim-easy-align'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'mxw/vim-jsx.git'
-Plugin 'scrooloose/syntastic'
 Plugin 'elzr/vim-json'
 Plugin 'ryanoasis/vim-devicons'
 Plugin 'elmcast/elm-vim'
+Plugin 'w0rp/ale'
+Plugin 'Shougo/neocomplete.vim'
 call vundle#end()
 
 " Elm
 let g:elm_format_autosave = 1
 autocmd bufenter *.elm set ft=elm
+call neocomplete#util#set_default_dictionary(
+  \ 'g:neocomplete#sources#omni#input_patterns',
+  \ 'elm',
+  \ '\.')
 
 "Basic setup
 let mapleader=' '
@@ -56,7 +61,7 @@ set showtabline=2
 " set guioptions-=e
 set ignorecase
 set smartcase
-set smarttab
+set tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab
 set number
 nnoremap Y y$
 inoremap jj <esc>
@@ -93,11 +98,6 @@ inoremap <c-v> <c-r><c-p>+
 nnoremap <leader>v :e $MYVIMRC<CR>wgf
 " Find next occurence of that thing i just deleted
 nnoremap <leader>n /\<<C-R>-\><CR>
-
-" "Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
