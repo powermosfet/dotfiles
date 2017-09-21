@@ -99,13 +99,8 @@ nnoremap <leader>v :e $MYVIMRC<CR>wgf
 " Find next occurence of that thing i just deleted
 nnoremap <leader>n /\<<C-R>-\><CR>
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
-let g:syntastic_javascript_checkers = ['jsxhint']
-let g:elm_syntastic_show_warnings = 1
-let g:syntastic_haskell_checkers = ['hlint', 'scan']
+let g:ale_fixers = {'javascript': ['eslint']}
+let g:ale_linters = {'javascript': ['eslint']}
 
 " Fugitive
 nmap <leader><space> :Gstatus<cr>
