@@ -86,7 +86,7 @@ let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'r'
 
 " NERDTree
-nnoremap <F11> :NERDTreeFocus<cr>
+nnoremap <F11> :NERDTreeToggle<cr>
 let NERDTreeIgnore=['\.pyc$']
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
