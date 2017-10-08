@@ -87,8 +87,14 @@ let g:ctrlp_working_path_mode = 'r'
 
 " NERDTree
 nnoremap <F11> :NERDTreeToggle<cr>
+nnoremap <leader><tab> :NERDTreeFocus<cr>
 let NERDTreeIgnore=['\.pyc$']
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" Windows
+nnoremap <leader>w <c-w>w
+nnoremap <leader>o <c-w>o
+nnoremap <leader>c <c-w>c
 
 " <C-V>-paste in insert mode
 inoremap <c-v> <c-r><c-p>+
