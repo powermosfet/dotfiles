@@ -41,6 +41,7 @@ Plugin 'ryanoasis/vim-devicons'
 Plugin 'elmcast/elm-vim'
 Plugin 'w0rp/ale'
 Plugin 'Shougo/neocomplete.vim'
+Plugin 'neovimhaskell/haskell-vim'
 call vundle#end()
 
 " Elm
@@ -68,6 +69,10 @@ inoremap jj <esc>
 nnoremap <esc> :noh<cr>:lclose<cr>
 nnoremap <c-PageUp> :bp<cr>
 nnoremap <c-PageDown> :bn<cr>
+nnoremap <Up> <NOP>
+nnoremap <Down> <NOP>
+nnoremap <Left> <NOP>
+nnoremap <Right> <NOP>
 
 " syntax
 nnoremap [os :syntax on<cr>
@@ -95,6 +100,9 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 nnoremap <leader>w <c-w>w
 nnoremap <leader>o <c-w>o
 nnoremap <leader>c <c-w>c
+nnoremap <leader>b :b#<cr>
+nnoremap <c-m> <c-n>
+nnoremap <leader>b :b#<cr>
 
 " <C-V>-paste in insert mode
 inoremap <c-v> <c-r><c-p>+
@@ -105,8 +113,10 @@ nnoremap <leader>v :e $MYVIMRC<CR>wgf
 " Find next occurence of that thing i just deleted
 nnoremap <leader>n /\<<C-R>-\><CR>
 
+" ALE
 let g:ale_fixers = {'javascript': ['eslint']}
 let g:ale_linters = {'javascript': ['eslint']}
+nnoremap coa :ALEToggle<cr>
 
 " Fugitive
 nmap <leader><space> :Gstatus<cr>
