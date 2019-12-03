@@ -1,143 +1,88 @@
 set nocompatible
+set encoding=utf-8
 
-"Vundle
-filetype off
-if has('win32') || has('win64')
-	set guifont=Consolas:h11:cANSI
-	set rtp+=$HOME/vimfiles/bundle/vundle/
-	call vundle#begin('$USERPROFILE/vimfiles/bundle/')
-	set backupdir=$HOME\\vimfiles\\backup\\
-	set directory=$HOME\\vimfiles\\swp\\
-	set makeprg=nmake
-else
-	" Usual quickstart instructions
-	set runtimepath+=~/.vim/bundle/vundle/
-	call vundle#begin()
-	set backupdir=~/.vim/backup//
-	set directory=~/.vim/swp//
-endif
-filetype plugin on
-syntax enable
+call plug#begin('~/.vim/plugged')
+    Plug 'tpope/vim-sensible'
+    Plug 'tpope/vim-dispatch'
+    Plug 'tpope/vim-fugitive'
+    Plug 'tpope/vim-sleuth'
+    Plug 'tpope/vim-unimpaired'
+    Plug 'tpope/vim-surround'
+    Plug 'MattesGroeger/vim-bookmarks'
 
-Plugin 'gmarik/vundle'
-Plugin 'tpope/vim-sensible'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-ragtag'
-Plugin 'tpope/vim-sleuth'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'tpope/vim-speeddating'
-Plugin 'tpope/vim-dispatch'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'othree/yajs.vim'
-Plugin 'gavocanov/vim-js-indent'
-Plugin 'flazz/vim-colorschemes'
-Plugin 'junegunn/vim-easy-align'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'mxw/vim-jsx.git'
-Plugin 'elzr/vim-json'
-Plugin 'ryanoasis/vim-devicons'
-Plugin 'elmcast/elm-vim'
-Plugin 'w0rp/ale'
-Plugin 'Shougo/neocomplete.vim'
-Plugin 'neovimhaskell/haskell-vim'
-call vundle#end()
+    Plug 'SirVer/ultisnips'
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'junegunn/vim-easy-align'
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+    Plug 'junegunn/fzf.vim'
+    Plug 'flazz/vim-colorschemes'
+    Plug 'scrooloose/nerdtree', { 'on':  [ 'NERDTreeFocus', 'NERDTreeFind' ] }
+    Plug 'mogelbrod/vim-jsonpath'
 
-" Elm
-let g:elm_format_autosave = 1
-autocmd bufenter *.elm set ft=elm
-call neocomplete#util#set_default_dictionary(
-  \ 'g:neocomplete#sources#omni#input_patterns',
-  \ 'elm',
-  \ '\.')
+    Plug 'elmcast/elm-vim'
+    Plug 'antew/vim-elm-language-server'
+call plug#end()
 
-"Basic setup
-let mapleader=' '
+set nofixendofline
+colorscheme Atelier_EstuaryDark
+set number
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/elm-stuff/*,*/node_modules/*,*/build/*
 set hidden
-silent! colors solarized
-set guioptions-=T
-set laststatus=2
-set showtabline=2
-" set guioptions-=e
+set backupdir=~/.vim/backup//
+set directory=~/.vim/swap//
 set ignorecase
 set smartcase
-set tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab
-set number
-nnoremap Y y$
-inoremap jj <esc>
-nnoremap <esc> :noh<cr>:lclose<cr>
-nnoremap <c-PageUp> :bp<cr>
-nnoremap <c-PageDown> :bn<cr>
-nnoremap <Up> <NOP>
-nnoremap <Down> <NOP>
-nnoremap <Left> <NOP>
-nnoremap <Right> <NOP>
+set nowrap
+set hlsearch
+set signcolumn=yes
+set updatetime=300
+set mouse=nicr
+set ssop-=options    " do not store global and local values in a session
+set ssop-=folds      " do not store folds
 
-" syntax
-nnoremap [os :syntax on<cr>
-nnoremap ]os :syntax off<cr>
+let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
+let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 
-"Easy align
-vmap <Enter> <Plug>(EasyAlign)
-nmap ga <Plug>(EasyAlign)
-
-" JSON
-let g:vim_json_syntax_conceal = 0
-
-" CtrlP
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_working_path_mode = 'r'
-
-" NERDTree
-nnoremap <F11> :NERDTreeToggle<cr>
+nmap <silent> gd       <Plug>(coc-definition)
+nmap <silent> gy       <Plug>(coc-type-definition)
+nmap <silent> gi       <Plug>(coc-implementation)
+nmap <silent> gr       <Plug>(coc-references)
+nmap <silent> <cr>     :call CocAction('doHover')<cr>
+nmap <silent> ((       <Plug>(coc-diagnostic-prev)
+nmap <silent> ))       <Plug>(coc-diagnostic-next)
+nnoremap <C-p>         :Files<cr>
+let mapleader=" "
+nnoremap <leader>b     :Buffers<cr>
+nnoremap <leader>m     :Marks<cr>
+nnoremap <leader>/     :<C-u>CocList outline<cr>
+nnoremap <leader>v     :e $MYVIMRC<cr>
 nnoremap <leader><tab> :NERDTreeFocus<cr>
-let NERDTreeIgnore=['\.pyc$']
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+nnoremap <leader>f     :NERDTreeFind<cr>
+nnoremap <leader>o     :b#<cr>
+nnoremap <leader>n     :noh<cr>
+nnoremap <leader>p     <c-w>p<c-w>c
+nnoremap <leader>h     VgUyypVr=
+nnoremap <leader>qf    <Plug>(coc-fix-current)
+nmap <leader>rn        <Plug>(coc-rename)
+nnoremap <leader>gr    yiw:Ggrep! "<c-r>""
+nnoremap <leader>&     :CocList quickfix<cr>
 
-" Windows
-nnoremap <leader>w <c-w>w
-nnoremap <leader>o <c-w>o
-nnoremap <leader>c <c-w>c
-nnoremap <leader>b :b#<cr>
-nnoremap <c-m> <c-n>
-nnoremap <leader>b :b#<cr>
+" Ultisnips
+let g:UltiSnipsExpandTrigger="<tab>"
+" let g:UltiSnipsListSnippets="<c-w>"
+inoremap <c-w> <c-o>:Snippets<cr>
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsSnippetsDir="~/.vim/UltiSnips"
 
-" <C-V>-paste in insert mode
-inoremap <c-v> <c-r><c-p>+
-
-" Leader maps
-" Edit vimrc
-nnoremap <leader>v :e $MYVIMRC<CR>wgf
-" Find next occurence of that thing i just deleted
-nnoremap <leader>n /\<<C-R>-\><CR>
-
-" ALE
-let g:ale_fixers = {'javascript': ['eslint']}
-let g:ale_linters = {'javascript': ['eslint']}
-nnoremap coa :ALEToggle<cr>
-
-" Fugitive
-nmap <leader><space> :Gstatus<cr>
-
-set bg=dark
-
-"Open all buffers in vertical diff view
-function! DiffView()
-	bufdo difft | vsplit
-	close	" Close the initial window
+function! NoteMode()
+    nnoremap <silent> <leader><leader> mo:s/^[☐☑x]/\=submatch(0)=='☐'?'☑':'☐'/<cr>`o
+    nnoremap <silent> <leader>x        mo:s/^[☐☑x]/x/<cr>`o
+    nnoremap + o☐ 
+    set nohlsearch
 endfunction
-" nnoremap <leader>l :execute "bufdo difft | vsplit"<CR>:clo<CR>
-nnoremap <leader>d :call DiffView()<CR><CR>
 
-" XML formatter
-function! DoFormatXML() range
-	" Execute external formatter
-	silent %!python -c "import sys;import xml.dom.minidom;s=sys.stdin.read();print(xml.dom.minidom.parseString(s).toprettyxml())"
-	silent! g/^\s*$/d   " Delete empty lines
-	silent! g/^\w/-1,.j " Join tags with direct content
-	silent! %s/>\ />/g  " Fix spaces created by join
-	silent! %s/\t/  /g  " Replace tabs
-endfunction
-nmap <silent> <leader>x :call DoFormatXML()<CR>
+python3 from powerline.vim import setup as powerline_setup
+python3 powerline_setup()
+python3 del powerline_setup
