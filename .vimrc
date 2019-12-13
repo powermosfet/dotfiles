@@ -56,7 +56,7 @@ let mapleader=" "
 nnoremap <leader>b     :Buffers<cr>
 nnoremap <leader>m     :Marks<cr>
 nnoremap <leader>/     :<C-u>CocList outline<cr>
-nnoremap <leader>v     :e $MYVIMRC<cr>
+nnoremap <leader>v     :e $MYVIMRC<cr>Wgf
 nnoremap <leader><tab> :NERDTreeFocus<cr>
 nnoremap <leader>f     :NERDTreeFind<cr>
 nnoremap <leader>o     :b#<cr>
