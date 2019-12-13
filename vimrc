@@ -68,6 +68,9 @@ nmap <leader>rn        <Plug>(coc-rename)
 nnoremap <leader>gr    yiw:Ggrep! "<c-r>""
 nnoremap <leader>&     :CocList quickfix<cr>
 
+" Commands
+command Fm !vifm %:p:h
+
 " Ultisnips
 let g:UltiSnipsExpandTrigger="<tab>"
 " let g:UltiSnipsListSnippets="<c-w>"
