@@ -8,6 +8,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'tpope/vim-sleuth'
     Plug 'tpope/vim-unimpaired'
     Plug 'tpope/vim-surround'
+    Plug 'tpope/vim-ragtag'
     Plug 'MattesGroeger/vim-bookmarks'
 
     Plug 'SirVer/ultisnips'
@@ -67,6 +68,8 @@ nnoremap <leader>qf    <Plug>(coc-fix-current)
 nmap <leader>rn        <Plug>(coc-rename)
 nnoremap <leader>gr    yiw:Ggrep! "<c-r>""
 nnoremap <leader>&     :CocList quickfix<cr>
+
+let g:ragtag_global_maps = 1
 
 " Commands
 command Fm !vifm %:p:h
