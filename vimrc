@@ -25,7 +25,7 @@ call plug#begin('~/.vim/plugged')
 call plug#end()
 
 set nofixendofline
-colorscheme Atelier_EstuaryDark
+colorscheme Atelier_EstuaryLight
 set number
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/elm-stuff/*,*/node_modules/*,*/build/*
 set hidden
