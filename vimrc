@@ -67,6 +67,7 @@ nnoremap <leader>h     VgUyypVr=
 nnoremap <leader>qf    <Plug>(coc-fix-current)
 nmap <leader>rn        <Plug>(coc-rename)
 nnoremap <leader>gr    yiw:Ggrep! "<c-r>""
+nnoremap <leader>gf    :Ggrep! %:p:t<cr>
 nnoremap <leader>&     :CocList quickfix<cr>
 
 let g:ragtag_global_maps = 1
