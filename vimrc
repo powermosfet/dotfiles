@@ -73,7 +73,7 @@ nnoremap <leader>&     :CocList quickfix<cr>
 let g:ragtag_global_maps = 1
 
 " Commands
-command Fm !vifm %:p:h
+command Fm Start vifm %:p:h
 
 " Ultisnips
 let g:UltiSnipsExpandTrigger="<tab>"
