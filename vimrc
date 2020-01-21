@@ -25,7 +25,7 @@ call plug#begin('~/.vim/plugged')
 call plug#end()
 
 set nofixendofline
-colorscheme Atelier_EstuaryLight
+colorscheme solarized
 set number
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/elm-stuff/*,*/node_modules/*,*/build/*
 set hidden
@@ -52,7 +52,7 @@ nmap <silent> gr       <Plug>(coc-references)
 nmap <silent> <cr>     :call CocAction('doHover')<cr>
 nmap <silent> ((       <Plug>(coc-diagnostic-prev)
 nmap <silent> ))       <Plug>(coc-diagnostic-next)
-nnoremap <C-p>         :Files<cr>
+nnoremap <C-p>         :GFiles --exclude-standard --others --cached<cr>
 let mapleader=" "
 nnoremap <leader>b     :Buffers<cr>
 nnoremap <leader>m     :Marks<cr>
