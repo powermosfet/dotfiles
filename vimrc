@@ -21,7 +21,6 @@ call plug#begin('~/.vim/plugged')
     Plug 'mogelbrod/vim-jsonpath'
 
     Plug 'elmcast/elm-vim'
-    Plug 'antew/vim-elm-language-server'
 call plug#end()
 
 set nofixendofline
