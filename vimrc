@@ -89,6 +89,7 @@ function! NoteMode()
     nnoremap <silent> <leader>x        mo:s/^[☐☑x]/x/<cr>`o
     nnoremap + o☐ 
     set nohlsearch
+    echo "Note mode activated"
 endfunction
 
 python3 from powerline.vim import setup as powerline_setup
