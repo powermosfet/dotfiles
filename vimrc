@@ -66,6 +66,7 @@ nnoremap <leader>h     VgUyypVr=
 nnoremap <leader>qf    <Plug>(coc-fix-current)
 nmap <leader>rn        <Plug>(coc-rename)
 nnoremap <leader>gr    yiw:Ag <c-r>"<cr>
+vnoremap <leader>gr    y:Ag <c-r>"<cr>
 nnoremap <leader>g%    :Ag <c-r>=expand("%:t")<cr><cr>
 vnoremap <leader>gf    y:FZF -q <c-r>"<cr>
 nnoremap <leader>&     :CocList quickfix<cr>
