@@ -73,6 +73,12 @@ nnoremap <leader>&     :CocList quickfix<cr>
 
 let g:ragtag_global_maps = 1
 
+" Create mappings for function text object, requires document symbols feature of languageserver.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
 " Commands
 command Fm Start vifm %:p:h
 
