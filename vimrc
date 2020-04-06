@@ -52,6 +52,7 @@ nmap <silent> <cr>     :call CocAction('doHover')<cr>
 nmap <silent> ((       <Plug>(coc-diagnostic-prev)
 nmap <silent> ))       <Plug>(coc-diagnostic-next)
 nnoremap <C-p>         :GFiles --exclude-standard --others --cached<cr>
+nmap <tab> <c-w>
 let mapleader=" "
 nnoremap <leader>b     :Buffers<cr>
 nnoremap <leader>m     :Marks<cr>
