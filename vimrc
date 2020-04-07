@@ -5,6 +5,8 @@ call plug#begin('~/.vim/plugged')
     Plug 'tpope/vim-sensible'
     Plug 'tpope/vim-dispatch'
     Plug 'tpope/vim-fugitive'
+    Plug 'tpope/vim-rhubarb'
+    Plug 'shumphrey/fugitive-gitlab.vim'
     Plug 'tpope/vim-sleuth'
     Plug 'tpope/vim-unimpaired'
     Plug 'tpope/vim-surround'
