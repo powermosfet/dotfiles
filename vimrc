@@ -59,13 +59,12 @@ let mapleader=" "
 nnoremap <leader>b     :Buffers<cr>
 nnoremap <leader>m     :Marks<cr>
 nnoremap <leader>/     :<C-u>CocList outline<cr>
-nnoremap <leader>v     :e $MYVIMRC<cr>Wgf
+nnoremap <leader>v     :tabe $MYVIMRC<cr>Wgf
 nnoremap <leader><tab> :NERDTreeFocus<cr>
 nnoremap <leader>f     :NERDTreeFind<cr>
 nnoremap <leader>o     :b#<cr>
 nnoremap <leader>n     :noh<cr>
 nnoremap <leader>p     <c-w>p<c-w>c
-nnoremap <leader>h     VgUyypVr=
 nnoremap <leader>qf    <Plug>(coc-fix-current)
 nmap <leader>rn        <Plug>(coc-rename)
 nnoremap <leader>gr    yiw:Ag <c-r>"<cr>
@@ -73,6 +72,10 @@ vnoremap <leader>gr    y:Ag <c-r>"<cr>
 nnoremap <leader>g%    :Ag <c-r>=expand("%:t")<cr><cr>
 vnoremap <leader>gf    y:FZF -q <c-r>"<cr>
 nnoremap <leader>&     :CocList quickfix<cr>
+" Tabs
+nnoremap <leader>h     :tabp<cr>
+nnoremap <leader>l     :tabn<cr>
+nnoremap <leader>w     :tabc<cr>
 
 let g:ragtag_global_maps = 1
 
@@ -94,6 +97,7 @@ let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetsDir="~/.vim/UltiSnips"
 
 function! NoteMode()
+    nnoremap <leader>h     VgUyypVr=
     nnoremap <silent> <leader><leader> mo:s/^[☐☑x]/\=submatch(0)=='☐'?'☑':'☐'/<cr>`o
     nnoremap <silent> <leader>x        mo:s/^[☐☑x]/x/<cr>`o
     nnoremap + o☐ 
