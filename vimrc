@@ -28,6 +28,7 @@ call plug#end()
 set nofixendofline
 colorscheme solarized
 set number
+set relativenumber
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/elm-stuff/*,*/node_modules/*,*/build/*
 set hidden
 set backupdir=~/.vim/backup//
@@ -72,10 +73,12 @@ vnoremap <leader>gr    y:Ag <c-r>"<cr>
 nnoremap <leader>g%    :Ag <c-r>=expand("%:t")<cr><cr>
 vnoremap <leader>gf    y:FZF -q <c-r>"<cr>
 nnoremap <leader>&     :CocList quickfix<cr>
+nnoremap <leader>c     :bd<cr>
 " Tabs
 nnoremap <leader>h     :tabp<cr>
 nnoremap <leader>l     :tabn<cr>
 nnoremap <leader>w     :tabc<cr>
+nnoremap <leader>tt    :tab split<cr>
 
 let g:ragtag_global_maps = 1
 
