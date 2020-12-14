@@ -1,0 +1,27 @@
+snippet doc "Function documentation"
+{-| ${1:Documentation}
+-}
+endsnippet
+
+snippet let "Let in" 
+let
+    ${1:name} = ${2:value}
+in
+endsnippet
+
+snippet mod "Module declaration"
+module ${1:`!p
+dirs = path.replace(".elm", "").split("/")[::-1]
+for dir in dirs:
+    if dir[0].islower():
+        break
+    if snip.rv:
+        snip.rv = dir + "." + snip.rv
+    else:
+        snip.rv = dir
+`} exposing (${2:..})
+
+$0
+endsnippet
+
+

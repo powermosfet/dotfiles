@@ -1,1 +1,4 @@
 *.swp
+/vim/swap
+/vim/backup
+/vim/plugged

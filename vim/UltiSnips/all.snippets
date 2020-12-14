@@ -1,0 +1,19 @@
+snippet lorem "Lorem Ipsum placeholder text" 
+Sed sed risus sit amet urna imperdiet tempor. Ut accumsan hendrerit dignissim. Curabitur tincidunt quam felis, vel tristique erat condimentum a. Curabitur ipsum augue, aliquam sit amet nunc eget, consectetur finibus elit. Sed vitae malesuada elit. Fusce eget nulla ac velit tincidunt mollis et non mi. Quisque quis nisi ut nisi sollicitudin accumsan. Morbi finibus odio quis purus tincidunt, vitae aliquam erat pellentesque. Duis tempor condimentum felis in auctor.
+endsnippet
+
+snippet wiki "A random wikipedia article"
+`!p
+import re, requests_html
+session = requests_html.HTMLSession()
+r = session.get('https://en.wikipedia.org/wiki/Special:Random')
+
+if not snip.c:
+    snip.rv = re.sub("\s([,.;:! ])", "$1",
+        re.sub("\s*\[.*\]\s*", " ",
+            re.sub("\s*\(.*\)\s*", " ",
+                r.html.find("#mw-content-text p", first=True).text)
+            )
+        ).strip()
+`$0
+endsnippet
