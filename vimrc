@@ -73,7 +73,9 @@ vnoremap <leader>gr    y:Ag <c-r>"<cr>
 nnoremap <leader>g%    :Ag <c-r>=expand("%:t")<cr><cr>
 vnoremap <leader>gf    y:FZF -q <c-r>"<cr>
 nnoremap <leader>&     :CocList quickfix<cr>
-nnoremap <leader>c     :bd<cr>
+nnoremap <leader>c     :close<cr>
+nnoremap <leader>tc    :tabclose<cr>
+nnoremap <leader>d     :bd<cr>
 " Tabs
 nnoremap <leader>h     :tabp<cr>
 nnoremap <leader>l     :tabn<cr>
