@@ -60,7 +60,7 @@ let mapleader=" "
 nnoremap <leader>b     :Buffers<cr>
 nnoremap <leader>m     :Marks<cr>
 nnoremap <leader>/     :<C-u>CocList outline<cr>
-nnoremap <leader>v     :tabe $MYVIMRC<cr>Wgf
+nnoremap <leader>v     :tabe $MYVIMRC<cr>
 nnoremap <leader><tab> :NERDTreeFocus<cr>
 nnoremap <leader>f     :NERDTreeFind<cr>
 nnoremap <leader>o     :b#<cr>
