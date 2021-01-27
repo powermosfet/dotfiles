@@ -52,8 +52,9 @@ nmap <silent> gy       <Plug>(coc-type-definition)
 nmap <silent> gi       <Plug>(coc-implementation)
 nmap <silent> gr       <Plug>(coc-references)
 nmap <silent> <cr>     :call CocAction('doHover')<cr>
-nmap <silent> ((       <Plug>(coc-diagnostic-prev)
-nmap <silent> ))       <Plug>(coc-diagnostic-next)
+nmap <silent> [y       <Plug>(coc-diagnostic-prev)
+nmap <silent> ]y       <Plug>(coc-diagnostic-next)
+nnoremap <leader>y     :CocList diagnostics<cr>
 nnoremap <C-p>         :GFiles --exclude-standard --others --cached<cr>
 nmap <tab> <c-w>
 let mapleader=" "
@@ -89,6 +90,10 @@ xmap if <Plug>(coc-funcobj-i)
 xmap af <Plug>(coc-funcobj-a)
 omap if <Plug>(coc-funcobj-i)
 omap af <Plug>(coc-funcobj-a)
+
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Commands
 command Fm Start vifm %:p:h
