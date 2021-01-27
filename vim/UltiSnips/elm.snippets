@@ -24,4 +24,27 @@ for dir in dirs:
 $0
 endsnippet
 
+snippet none "Update response doing nothing"
+( ${1:model}
+, ${2:Cmd.none}
+, ${3:Effects.none}
+)
+endsnippet
+
+snippet dialogData "Default dialogData implementation"
+{-| Converts dialog type to dialog config and content
+-}
+dialogData : Runtime.ServiceData tab invalidProperty -> Model -> Dialog -> Popup.DialogData Msg
+dialogData { lang } _ dialog =
+    case dialog of
+        ${1:SomeDialog} ->
+            Popup.confirmData
+                { title = "Dialog title"
+                , description = "Dialog description"
+                , yesMsg = ${2:YesMsg}
+                , yesText = Translation.commonYes lang
+                , noMsg = ${3:CloseDialog}
+                , noText = Translation.commonNo lang
+                }
+endsnippet
 
