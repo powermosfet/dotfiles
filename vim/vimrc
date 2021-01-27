@@ -55,6 +55,9 @@ nmap <silent> <cr>     :call CocAction('doHover')<cr>
 nmap <silent> [y       <Plug>(coc-diagnostic-prev)
 nmap <silent> ]y       <Plug>(coc-diagnostic-next)
 nnoremap <leader>y     :CocList diagnostics<cr>
+" unmap unimpaired stuff to avoid waiting
+unmap [yy
+unmap ]yy
 nnoremap <C-p>         :GFiles --exclude-standard --others --cached<cr>
 nmap <tab> <c-w>
 let mapleader=" "
