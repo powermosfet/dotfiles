@@ -84,6 +84,9 @@ nnoremap <leader>h     :tabp<cr>
 nnoremap <leader>l     :tabn<cr>
 nnoremap <leader>w     :tabc<cr>
 nnoremap <leader>tt    :tab split<cr>
+" Manage
+nnoremap <F4>          :G<space>
+nnoremap <F5>          :Make<cr>
 
 let g:ragtag_global_maps = 1
 
