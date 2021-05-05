@@ -3,3 +3,5 @@
 /vim/backup
 /vim/plugged
 /vim/view
+/vim/.netrwhist
+/vim/sessions/*
