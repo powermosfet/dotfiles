@@ -76,10 +76,8 @@ nnoremap <leader>c     :close<cr>
 nnoremap <leader>tc    :tabclose<cr>
 nnoremap <leader>d     :bd<cr>
 " Tabs
-nnoremap <leader>h     :tabp<cr>
-nnoremap <leader>l     :tabn<cr>
-nnoremap <leader>w     :tabc<cr>
-nnoremap <leader>tt    :tab split<cr>
+nnoremap <leader>,     :tabp<cr>
+nnoremap <leader>.     :tabn<cr>
 " Manage
 nnoremap <F4>          :G<space>
 nnoremap <F5>          :Make<cr>
