@@ -1,4 +1,4 @@
-call plug#begin('~/.neovim-test/plugged')
+call plug#begin('~/.vim/plugged')
   Plug 'neovim/nvim-lspconfig'
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-unimpaired'
