@@ -2,6 +2,7 @@
 /vim/swap
 /vim/backup
 /vim/plugged
+/vim/neovim-plugged/
 /vim/view
 /vim/.netrwhist
 /vim/sessions/*
