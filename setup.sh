@@ -48,3 +48,12 @@ then
 else
 	exe ln -s $(dirname "$BASH_SOURCE")/tmux.conf ~/.tmux.conf
 fi
+
+# stalonetray
+if [[ -f ~/.stalonetrayrc ]]
+then
+	echo "~/.stalonetrayrc exists already. skipping."
+
+else
+	exe ln -s $(dirname "$BASH_SOURCE")/stalonetrayrc ~/.stalonetrayrc
+fi
