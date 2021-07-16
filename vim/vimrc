@@ -22,6 +22,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'flazz/vim-colorschemes'
     Plug 'scrooloose/nerdtree', { 'on':  [ 'NERDTreeFocus', 'NERDTreeFind' ] }
     Plug 'mogelbrod/vim-jsonpath'
+    Plug 'ledger/vim-ledger'
 
     Plug 'elmcast/elm-vim'
 call plug#end()
@@ -100,6 +101,14 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Commands
 command Fm Start vifm %:p:h
+
+" Hledger
+augroup ledger_ft
+    au!
+    autocmd BufNewFile,BufRead *.ledger   set ft=ledger
+    autocmd BufNewFile,BufRead *.journal  set ft=ledger
+augroup END
+
 
 " Ultisnips
 let g:UltiSnipsExpandTrigger="<tab>"
