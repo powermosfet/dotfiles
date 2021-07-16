@@ -9,45 +9,55 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-sleuth'
   Plug 'MattesGroeger/vim-bookmarks'
   Plug 'SirVer/ultisnips'
-  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-  Plug 'junegunn/fzf.vim'
-  Plug 'gfanto/fzf-lsp.nvim'
+  Plug 'nvim-lua/popup.nvim'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-telescope/telescope.nvim'
   Plug 'flazz/vim-colorschemes'
   Plug 'scrooloose/nerdtree', { 'on':  [ 'NERDTreeFocus', 'NERDTreeFind' ] }
 call plug#end()
 
-set nofixendofline
 colorscheme flattr
-set number
-set relativenumber
-set mouse=nicr
-set ignorecase
-set smartcase
-set hidden
 
 let g:UltiSnipsSnippetsDir="~/.vim/UltiSnips"
 
 command Fm Start vifm %:p:h
 
-nnoremap <c-p>         :GFiles<cr>
+nnoremap <c-p>         :Telescope find_files<cr>
 let mapleader=" "
+nnoremap <leader><c-p> :Telescope file_browser<cr>
 nnoremap <leader>v     :tabe <c-r>=resolve($MYVIMRC)<cr><cr>
-nnoremap <leader>b     :Buffers<cr>
+nnoremap <leader>b     :Telescope buffers<cr>
 nnoremap <leader><tab> :NERDTreeFocus<cr>
 nnoremap <leader>f     :NERDTreeFind<cr>
 nnoremap <leader>o     :b#<cr>
 nnoremap <leader>n     :noh<cr>
-nnoremap <leader>gr    yiw:Ag <c-r>"<cr>
-vnoremap <leader>gr    y:Ag <c-r>"<cr>
-nnoremap <leader>g%    :Ag <c-r>=expand("%:t")<cr><cr>
-vnoremap <leader>gf    y:FZF -q <c-r>"<cr>
+nnoremap <leader>gr    :Telescope grep_string<cr>
+vnoremap <leader>gr    :Telescope grep_string<cr>
 nnoremap <leader>c     :close<cr>
 nnoremap <leader>tc    :tabclose<cr>
 nnoremap <leader>d     :bd<cr>
 nnoremap <leader>,     :tabp<cr>
 nnoremap <leader>.     :tabn<cr>
+nnoremap <leader>gb    :Telescope git_branches<cr>
+nnoremap <leader>gc    :Telescope git_bcommits<cr>
 
 lua << EOF
+
+-- OPTIONS
+
+local set_all = function(value, list)
+  for _, item in pairs(list) do
+    vim.o[item] = value
+  end
+end
+
+set_all(true, { "termguicolors", "hidden", "splitright", "number", "relativenumber", "ignorecase", "smartcase" })
+set_all(false, { "fixendofline" })
+set_all("nicr", { "mouse" })
+
+
+-- LANGUAGE SERVERS
+
 local nvim_lsp = require('lspconfig')
 
 -- Use an on_attach function to only map the following keys
@@ -71,14 +81,23 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   buf_set_keymap('n', '<space>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>References<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>Telescope lsp_references<CR>', opts)
   buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   buf_set_keymap('n', '[g', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']g', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap('n', '<space>qb', '<cmd>Telescope lsp_document_diagnostics<CR>', opts)
+  buf_set_keymap('n', '<space>qw', '<cmd>Telescope lsp_workspace_diagnostics<CR>', opts)
   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-  buf_set_keymap("n", "<space>/", "<cmd>DocumentSymbols<CR>", opts)
+  buf_set_keymap("n", "<space>/", "<cmd>Telescope lsp_document_symbols<CR>", opts)
 end
+
+-- check if "local-vim.lua" exists in current dir
+-- and load it as a module. Expect it to have the following interface:
+--
+-- {
+--  lspServers : list of strings
+--  config : function with any other config
+-- }
 
 local f=io.open('local-vim.lua','r')
 if f~=nil then
