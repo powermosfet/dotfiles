@@ -30,6 +30,21 @@ snippet none "Update response doing nothing"
 )
 endsnippet
 
+snippet m "Update a field in the model"
+{ ${1:model} | ${2:field} =  ${3:value} }
+endsnippet
+
+snippet c "Case expression with a single branch"
+case ${1:result} of
+    ${2:pattern} -> ${3:value}
+endsnippet
+
+snippet cr "Case expression for result type"
+case ${1:result} of
+    Ok ${2:_} -> ${3:value}
+    Err ${4:_} -> ${5:value}
+endsnippet
+
 snippet dialogData "Default dialogData implementation"
 {-| Converts dialog type to dialog config and content
 -}
