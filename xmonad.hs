@@ -2,6 +2,9 @@ import XMonad
 import Data.Monoid
 import System.Exit
 import XMonad.Hooks.DynamicLog
+import XMonad.Layout.Spacing
+import XMonad.Util.Scratchpad
+import XMonad.Util.SpawnOnce
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
@@ -11,7 +14,7 @@ myBorderWidth        = 3
 myModMask            = mod4Mask
 myWorkspaces         = ["1:term","2:web","3:keepass","4","5","6","7","8","9"]
 myNormalBorderColor  = "#555555"
-myFocusedBorderColor = "#f9ba25"
+myFocusedBorderColor = "#DD1188"
 
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
@@ -19,6 +22,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
     -- launch rofi
     , ((modm,               xK_p     ), spawn "rofi -show run")
+    , ((modm,               xK_s     ), scratchpadSpawnActionTerminal "alacritty")
 
     , ((modm .|. controlMask, xK_q), spawn "slock")
     -- close focused window
@@ -68,6 +72,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- Restart xmonad
     , ((modm              , xK_q     ), spawn "xmonad --recompile; xmonad --restart")
+    -- , ((modm              , xK_a     ), spawn "~/bin/toggle-tray")
+    , ((modm              , xK_g     ), spawn "~/.screenlayout/auto.sh")
     ]
     ++
 
@@ -96,7 +102,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 myLayout = tiled ||| Mirror tiled ||| Full
   where
     -- default tiling algorithm partitions the screen into two panes
-    tiled   = Tall nmaster delta ratio
+    tiled   = spacingWithEdge 15 $ Tall nmaster delta ratio
 
     -- The default number of windows in the master pane
     nmaster = 1
@@ -107,25 +113,16 @@ myLayout = tiled ||| Mirror tiled ||| Full
     -- Percent of screen to increment by when resizing panes
     delta   = 3/100
 
-------------------------------------------------------------------------
--- Status bars and logging
+myStartupHook = do
+  spawnOnce "stalonetray"
+  spawnOnce "nextcloud"
+  spawnOnce "blueman-tray"
+  spawnOnce "nm-applet"
 
-------------------------------------------------------------------------
--- Startup hook
-
--- Perform an arbitrary action each time xmonad starts or is restarted
--- with mod-q.  Used by, e.g., XMonad.Layout.PerWorkspace to initialize
--- per-workspace layout choices.
---
--- By default, do nothing.
---
--- * NOTE: EwmhDesktops users should use the 'ewmh' function from
--- XMonad.Hooks.EwmhDesktops to modify their defaultConfig as a whole.
--- It will add initialization of EWMH support to your custom startup
--- hook by combining it with ewmhDesktopsStartup.
---
-myStartupHook = return ()
-
+myManageHook = composeAll
+  [
+   scratchpadManageHookDefault
+  ]
 
 -- XMOBAR
 --
@@ -133,7 +130,7 @@ myStartupHook = return ()
 myBar = "xmobar"
 
 -- Custom PP, configure it as you like. It determines what is being written to the bar.
-myPP = xmobarPP { ppCurrent = xmobarColor "#429942" "" . wrap "<" ">" }
+myPP = xmobarPP { ppCurrent = xmobarColor "#429942" "" . wrap "[" "]" }
 
 -- Key binding to toggle the gap for the bar.
 toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
@@ -142,7 +139,7 @@ toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
 
-main = xmonad =<< statusBar myBar myPP toggleStrutsKey defaultConfig {
+main = xmonad =<< statusBar myBar myPP toggleStrutsKey def {
       -- simple stuff
           terminal           = myTerminal
         , borderWidth        = myBorderWidth
@@ -156,4 +153,5 @@ main = xmonad =<< statusBar myBar myPP toggleStrutsKey defaultConfig {
 
       -- hooks, layouts
         , startupHook        = myStartupHook
+        , manageHook         = myManageHook <+> manageHook def
     }
