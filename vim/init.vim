@@ -22,26 +22,39 @@ let g:UltiSnipsSnippetsDir="~/.vim/UltiSnips"
 
 command Fm Start vifm %:p:h
 
-nnoremap <c-p>         :Telescope find_files<cr>
-let mapleader=" "
-nnoremap <leader><c-p> :Telescope file_browser<cr>
-nnoremap <leader>v     :tabe <c-r>=resolve($MYVIMRC)<cr><cr>
-nnoremap <leader>b     :Telescope buffers<cr>
-nnoremap <leader><tab> :NERDTreeFocus<cr>
-nnoremap <leader>f     :NERDTreeFind<cr>
-nnoremap <leader>o     :b#<cr>
-nnoremap <leader>n     :noh<cr>
-nnoremap <leader>gr    :Telescope grep_string<cr>
-vnoremap <leader>gr    :Telescope grep_string<cr>
-nnoremap <leader>c     :close<cr>
-nnoremap <leader>tc    :tabclose<cr>
-nnoremap <leader>d     :bd<cr>
-nnoremap <leader>,     :tabp<cr>
-nnoremap <leader>.     :tabn<cr>
-nnoremap <leader>gb    :Telescope git_branches<cr>
-nnoremap <leader>gc    :Telescope git_bcommits<cr>
-
 lua << EOF
+
+local g = vim.g
+local api = vim.api
+
+local keymapOptions = { noremap=true, silent=true }
+
+api.nvim_set_keymap("n", "<c-p>", ":Telescope find_files<cr>", keymapOptions)
+
+g.mapleader = [[ ]]
+g.maplocalleader = [[ ]]
+
+local leaderMaps = {
+  ["<c-p>"] = ":Telescope file_browser<cr>",
+  ["v"] =     ":tabe <c-r>=resolve($MYVIMRC)<cr><cr>",
+  ["b"] =     ":Telescope buffers<cr>",
+  ["<tab>"] = ":NERDTreeFocus<cr>",
+  ["f"] =     ":NERDTreeFind<cr>",
+  ["o"] =     ":b#<cr>",
+  ["n"] =     ":noh<cr>",
+  ["gr"] =    ":Telescope grep_string<cr>",
+  ["c"] =     ":close<cr>",
+  ["tc"] =    ":tabclose<cr>",
+  ["d"] =     ":bd<cr>",
+  [","] =     ":tabp<cr>",
+  ["."] =     ":tabn<cr>",
+  ["gb"] =    ":Telescope git_branches<cr>",
+  ["gc"] =    ":Telescope git_bcommits<cr>"
+}
+
+for k, v in pairs(leaderMaps) do
+  api.nvim_set_keymap("n", "<leader>" .. k, v, keymapOptions)
+end
 
 -- OPTIONS
 
