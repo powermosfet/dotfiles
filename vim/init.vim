@@ -16,11 +16,11 @@ call plug#begin('~/.vim/neovim-plugged')
   Plug 'scrooloose/nerdtree', { 'on':  [ 'NERDTreeFocus', 'NERDTreeFind' ] }
 call plug#end()
 
-colorscheme flattr
+colorscheme slate
 
 let g:UltiSnipsSnippetsDir="~/.vim/UltiSnips"
 
-command Fm Start vifm %:p:h
+command! Fm Start vifm %:p:h
 
 lua << EOF
 
@@ -43,6 +43,7 @@ local leaderMaps = {
   ["o"] =     ":b#<cr>",
   ["n"] =     ":noh<cr>",
   ["gr"] =    ":Telescope grep_string<cr>",
+  ["gl"] =    ":Telescope live_grep<cr>",
   ["c"] =     ":close<cr>",
   ["tc"] =    ":tabclose<cr>",
   ["d"] =     ":bd<cr>",
