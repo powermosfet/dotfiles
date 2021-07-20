@@ -36,21 +36,21 @@ g.maplocalleader = [[ ]]
 
 local leaderMaps = {
   ["<c-p>"] = ":Telescope file_browser<cr>",
-  ["v"] =     ":tabe <c-r>=resolve($MYVIMRC)<cr><cr>",
-  ["b"] =     ":Telescope buffers<cr>",
+  ["v"]     = ":tabe <c-r>=resolve($MYVIMRC)<cr><cr>",
+  ["b"]     = ":Telescope buffers<cr>",
   ["<tab>"] = ":NERDTreeFocus<cr>",
-  ["f"] =     ":NERDTreeFind<cr>",
-  ["o"] =     ":b#<cr>",
-  ["n"] =     ":noh<cr>",
-  ["gr"] =    ":Telescope grep_string<cr>",
-  ["gl"] =    ":Telescope live_grep<cr>",
-  ["c"] =     ":close<cr>",
-  ["tc"] =    ":tabclose<cr>",
-  ["d"] =     ":bd<cr>",
-  [","] =     ":tabp<cr>",
-  ["."] =     ":tabn<cr>",
-  ["gb"] =    ":Telescope git_branches<cr>",
-  ["gc"] =    ":Telescope git_bcommits<cr>"
+  ["f"]     = ":NERDTreeFind<cr>",
+  ["o"]     = ":b#<cr>",
+  ["n"]     = ":noh<cr>",
+  ["gr"]    = ":Telescope grep_string<cr>",
+  ["gl"]    = ":Telescope live_grep<cr>",
+  ["c"]     = ":close<cr>",
+  ["tc"]    = ":tabclose<cr>",
+  ["d"]     = ":bd<cr>",
+  [","]     = ":tabp<cr>",
+  ["."]     = ":tabn<cr>",
+  ["gb"]    = ":Telescope git_branches<cr>",
+  ["gc"]    = ":Telescope git_bcommits<cr>"
 }
 
 for k, v in pairs(leaderMaps) do
@@ -77,31 +77,30 @@ local nvim_lsp = require('lspconfig')
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-  
   --Enable completion triggered by <c-x><c-o>
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
   
-  -- Mappings.
-  local opts = { noremap=true, silent=true }
-  
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', '<space>a', '<cmd>Telescope lsp_code_actions<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>Telescope lsp_references<CR>', opts)
-  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '[g', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']g', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>qb', '<cmd>Telescope lsp_document_diagnostics<CR>', opts)
-  buf_set_keymap('n', '<space>qw', '<cmd>Telescope lsp_workspace_diagnostics<CR>', opts)
-  buf_set_keymap("n", "<space>/", "<cmd>Telescope lsp_document_symbols<CR>", opts)
+  local lspKeymaps = {
+    ["gD"]         = ":lua vim.lsp.buf.declaration()<CR>",
+    ["gd"]         = ":lua vim.lsp.buf.definition()<CR>",
+    ["K"]          = ":lua vim.lsp.buf.hover()<CR>",
+    ["gi"]         = ":lua vim.lsp.buf.implementation()<CR>",
+    ["<C-k>"]      = ":lua vim.lsp.buf.signature_help()<CR>",
+    ["<leader>D"]  = ":lua vim.lsp.buf.type_definition()<CR>",
+    ["<leader>rn"] = ":lua vim.lsp.buf.rename()<CR>",
+    ["<leader>a"]  = ":Telescope lsp_code_actions<CR>",
+    ["gr"]         = ":Telescope lsp_references<CR>",
+    ["<leader>e"]  = ":lua vim.lsp.diagnostic.show_line_diagnostics()<CR>",
+    ["[g"]         = ":lua vim.lsp.diagnostic.goto_prev()<CR>",
+    ["]g"]         = ":lua vim.lsp.diagnostic.goto_next()<CR>",
+    ["<leader>qb"] = ":Telescope lsp_document_diagnostics<CR>",
+    ["<leader>qw"] = ":Telescope lsp_workspace_diagnostics<CR>",
+    ["<leader>/"]  = ":Telescope lsp_document_symbols<CR>"
+  }
+
+  for keys, action in pairs(lspKeymaps) do
+    vim.api.nvim_buf_set_keymap(bufnr, "n", keys, action, keymapOptions)
+  end
 end
 
 -- check if "local-vim.lua" exists in current dir
