@@ -95,7 +95,8 @@ local on_attach = function(client, bufnr)
     ["]g"]         = ":lua vim.lsp.diagnostic.goto_next()<CR>",
     ["<leader>qb"] = ":Telescope lsp_document_diagnostics<CR>",
     ["<leader>qw"] = ":Telescope lsp_workspace_diagnostics<CR>",
-    ["<leader>/"]  = ":Telescope lsp_document_symbols<CR>"
+    ["<leader>/"]  = ":Telescope lsp_document_symbols<CR>",
+    ["<leader>g/"]  = ":Telescope lsp_workspace_symbols<CR>"
   }
 
   for keys, action in pairs(lspKeymaps) do
