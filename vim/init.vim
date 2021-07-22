@@ -27,35 +27,59 @@ lua << EOF
 local g = vim.g
 local api = vim.api
 
-local keymapOptions = { noremap=true, silent=true }
+local keymapOptions = { noremap=true, silent=false }
 
-api.nvim_set_keymap("n", "<c-p>", ":Telescope find_files<cr>", keymapOptions)
+function kmap(prefix, definitions) 
+  if type(definitions) == "table" then
+    for k, a in pairs(definitions) do
+      kmap(prefix .. k, a)
+    end
+  else
+    api.nvim_set_keymap("n", prefix, definitions, keymapOptions)
+  end
+end
 
 g.mapleader = [[ ]]
 g.maplocalleader = [[ ]]
 
-local leaderMaps = {
-  ["<c-p>"] = ":Telescope file_browser<cr>",
-  ["v"]     = ":tabe <c-r>=resolve($MYVIMRC)<cr><cr>",
-  ["b"]     = ":Telescope buffers<cr>",
-  ["<tab>"] = ":NERDTreeFocus<cr>",
-  ["f"]     = ":NERDTreeFind<cr>",
-  ["o"]     = ":b#<cr>",
-  ["n"]     = ":noh<cr>",
-  ["gr"]    = ":Telescope grep_string<cr>",
-  ["gl"]    = ":Telescope live_grep<cr>",
-  ["c"]     = ":close<cr>",
-  ["tc"]    = ":tabclose<cr>",
-  ["d"]     = ":bd<cr>",
-  [","]     = ":tabp<cr>",
-  ["."]     = ":tabn<cr>",
-  ["gb"]    = ":Telescope git_branches<cr>",
-  ["gc"]    = ":Telescope git_bcommits<cr>"
+local keymaps = {
+  ["<leader>"] = {
+    ["v"]      = ":tabe <c-r>=resolve($MYVIMRC)<cr><cr>",
+    ["n"]      = ":noh<cr>",
+    ["c"]      = ":close<cr>",
+    ["tc"]     = ":tabclose<cr>",
+    [","]      = ":tabp<cr>",
+    ["."]      = ":tabn<cr>",
+    -- Search
+    ["s"]      = {
+      ["w"]    = ":Telescope grep_string<cr>",
+      ["l"]    = ":Telescope live_grep<cr>",
+    },
+    -- Buffer
+    ["b"]      = {
+      ["l"]    = ":Telescope buffers<cr>",
+      ["o"]    = ":b#<cr>",
+      ["d"]    = ":bd<cr>",
+    },
+    -- Files
+    ["f"]      = {
+      ["f"]    = ":Telescope find_files<cr>",
+      ["b"]    = ":Telescope file_browser<cr>",
+      ["t"]    = ":NERDTreeFocus<cr>",
+      ["T"]    = ":NERDTreeFind<cr>",
+    },
+    -- Git
+    ["g"]      = {
+      ["b"]    = ":Telescope git_branches<cr>",
+      ["c"]    = ":Telescope git_bcommits<cr>",
+      ["s"]    = ":G<cr>",
+      ["f"]    = ":Git fetch --prune<cr>",
+      ["p"]    = ":Git pull --ff-only<cr>"
+    }
+  }
 }
 
-for k, v in pairs(leaderMaps) do
-  api.nvim_set_keymap("n", "<leader>" .. k, v, keymapOptions)
-end
+kmap("", keymaps)
 
 -- OPTIONS
 
@@ -79,8 +103,14 @@ local nvim_lsp = require('lspconfig')
 local on_attach = function(client, bufnr)
   --Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  vim.api.nvim_command [[augroup Lsp]]
+  vim.api.nvim_command [[autocmd! * *]]
+  vim.api.nvim_command [[autocmd CursorHold * lua vim.lsp.buf.hover()]]
+  vim.api.nvim_command [[augroup END]]
   
   local lspKeymaps = {
+    ["<leader>lr"] = ":LspRestart<CR>",
     ["gD"]         = ":lua vim.lsp.buf.declaration()<CR>",
     ["gd"]         = ":lua vim.lsp.buf.definition()<CR>",
     ["K"]          = ":lua vim.lsp.buf.hover()<CR>",
