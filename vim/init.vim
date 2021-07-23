@@ -39,42 +39,42 @@ function kmap(prefix, definitions)
   end
 end
 
-g.mapleader = [[ ]]
-g.maplocalleader = [[ ]]
+g.mapleader = " "
+g.maplocalleader = " "
 
 local keymaps = {
   ["<leader>"] = {
-    ["v"]      = ":tabe <c-r>=resolve($MYVIMRC)<cr><cr>",
-    ["n"]      = ":noh<cr>",
-    ["c"]      = ":close<cr>",
-    ["tc"]     = ":tabclose<cr>",
-    [","]      = ":tabp<cr>",
-    ["."]      = ":tabn<cr>",
+    ["v"]      = [[:tabe <c-r>=resolve($MYVIMRC)<cr><cr>]],
+    ["n"]      = [[:noh<cr>]],
+    ["c"]      = [[:close<cr>]],
+    ["tc"]     = [[:tabclose<cr>]],
+    [","]      = [[:tabp<cr>]],
+    ["."]      = [[:tabn<cr>]],
     -- Search
     ["s"]      = {
-      ["w"]    = ":Telescope grep_string<cr>",
-      ["l"]    = ":Telescope live_grep<cr>",
+      ["w"]    = [[:Telescope grep_string<cr>]],
+      ["l"]    = [[:Telescope live_grep<cr>]],
     },
     -- Buffer
     ["b"]      = {
-      ["l"]    = ":Telescope buffers<cr>",
-      ["o"]    = ":b#<cr>",
-      ["d"]    = ":bd<cr>",
+      ["l"]    = [[:Telescope buffers<cr>]],
+      ["o"]    = [[:b#<cr>]],
+      ["d"]    = [[:bd<cr>]],
     },
     -- Files
     ["f"]      = {
-      ["f"]    = ":Telescope find_files<cr>",
-      ["b"]    = ":Telescope file_browser<cr>",
-      ["t"]    = ":NERDTreeFocus<cr>",
-      ["T"]    = ":NERDTreeFind<cr>",
+      ["f"]    = [[:Telescope find_files<cr>]],
+      ["b"]    = [[:Telescope file_browser<cr>]],
+      ["t"]    = [[:NERDTreeFocus<cr>]],
+      ["T"]    = [[:NERDTreeFind<cr>]],
     },
     -- Git
     ["g"]      = {
-      ["b"]    = ":Telescope git_branches<cr>",
-      ["c"]    = ":Telescope git_bcommits<cr>",
-      ["s"]    = ":G<cr>",
-      ["f"]    = ":Git fetch --prune<cr>",
-      ["p"]    = ":Git pull --ff-only<cr>"
+      ["b"]    = [[:Telescope git_branches<cr>]],
+      ["c"]    = [[:Telescope git_bcommits<cr>]],
+      ["s"]    = [[:G<cr>]],
+      ["f"]    = [[:Git fetch --prune<cr>]],
+      ["p"]    = [[:Git pull --ff-only<cr>]]
     }
   }
 }
@@ -110,28 +110,28 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_command [[augroup END]]
   
   local lspKeymaps = {
-    ["<leader>lr"] = ":LspRestart<CR>",
-    ["gD"]         = ":lua vim.lsp.buf.declaration()<CR>",
-    ["gd"]         = ":lua vim.lsp.buf.definition()<CR>",
-    ["K"]          = ":lua vim.lsp.buf.hover()<CR>",
-    ["gi"]         = ":lua vim.lsp.buf.implementation()<CR>",
-    ["<C-k>"]      = ":lua vim.lsp.buf.signature_help()<CR>",
-    ["<leader>D"]  = ":lua vim.lsp.buf.type_definition()<CR>",
-    ["<leader>rn"] = ":lua vim.lsp.buf.rename()<CR>",
-    ["<leader>a"]  = ":Telescope lsp_code_actions<CR>",
-    ["gr"]         = ":Telescope lsp_references<CR>",
-    ["<leader>e"]  = ":lua vim.lsp.diagnostic.show_line_diagnostics()<CR>",
-    ["[g"]         = ":lua vim.lsp.diagnostic.goto_prev()<CR>",
-    ["]g"]         = ":lua vim.lsp.diagnostic.goto_next()<CR>",
-    ["<leader>qb"] = ":Telescope lsp_document_diagnostics<CR>",
-    ["<leader>qw"] = ":Telescope lsp_workspace_diagnostics<CR>",
-    ["<leader>/"]  = ":Telescope lsp_document_symbols<CR>",
-    ["<leader>g/"]  = ":Telescope lsp_workspace_symbols<CR>"
+    ["[g"]         = [[:lua vim.lsp.diagnostic.goto_prev()<CR>]],
+    ["]g"]         = [[:lua vim.lsp.diagnostic.goto_next()<CR>]],
+    ["<leader>"]   = {
+      ["l"]        = {
+        ["z"]      = [[:LspRestart<CR>]],
+        ["f"]      = [[:lua vim.lsp.buf.formatting()<CR>]],
+        ["D"]      = [[:lua vim.lsp.buf.declaration()<CR>]],
+        ["d"]      = [[:lua vim.lsp.buf.definition()<CR>]],
+        ["h"]      = [[:lua vim.lsp.buf.hover()<CR>]],
+        ["i"]      = [[:lua vim.lsp.buf.implementation()<CR>]],
+        ["R"]      = [[:lua vim.lsp.buf.rename()<CR>]],
+        ["a"]      = [[:Telescope lsp_code_actions<CR>]],
+        ["r"]      = [[:Telescope lsp_references<CR>]],
+        ["gb"]     = [[:Telescope lsp_document_diagnostics<CR>]],
+        ["gw"]     = [[:Telescope lsp_workspace_diagnostics<CR>]],
+        ["/"]      = [[:Telescope lsp_document_symbols<CR>]],
+        ["g/"]     = [[:Telescope lsp_workspace_symbols<CR>]]
+      }
+    }
   }
 
-  for keys, action in pairs(lspKeymaps) do
-    vim.api.nvim_buf_set_keymap(bufnr, "n", keys, action, keymapOptions)
-  end
+  kmap("", lspKeymaps)
 end
 
 -- check if "local-vim.lua" exists in current dir
@@ -139,6 +139,7 @@ end
 --
 -- {
 --  lspServers : list of strings
+--  keymaps : Table of keymaps
 --  config : function with any other config
 -- }
 
@@ -149,7 +150,7 @@ if f~=nil then
 
   -- Use a loop to conveniently call 'setup' on multiple servers and
   -- map buffer local keybindings when the language server attaches
-  local servers = localConfig.lspServers -- { "elmls", "yamlls" }
+  local servers = localConfig.lspServers
   for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
       on_attach = on_attach,
@@ -158,6 +159,9 @@ if f~=nil then
       }
     }
   end
+
+  local localKeymaps = localConfig.keymaps
+  kmap("", localKeymaps)
 
   localConfig.config()
 end
