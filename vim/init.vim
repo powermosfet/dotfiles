@@ -43,6 +43,8 @@ g.mapleader = " "
 g.maplocalleader = " "
 
 local keymaps = {
+  ["[g"]         = [[:lua vim.lsp.diagnostic.goto_prev()<CR>]],
+  ["]g"]         = [[:lua vim.lsp.diagnostic.goto_next()<CR>]],
   ["<leader>"] = {
     ["v"]      = [[:tabe <c-r>=resolve($MYVIMRC)<cr><cr>]],
     ["n"]      = [[:noh<cr>]],
@@ -75,6 +77,21 @@ local keymaps = {
       ["s"]    = [[:G<cr>]],
       ["f"]    = [[:Git fetch --prune<cr>]],
       ["p"]    = [[:Git pull --ff-only<cr>]]
+    },
+    ["l"]        = {
+      ["z"]      = [[:LspRestart<CR>]],
+      ["f"]      = [[:lua vim.lsp.buf.formatting()<CR>]],
+      ["D"]      = [[:lua vim.lsp.buf.declaration()<CR>]],
+      ["d"]      = [[:lua vim.lsp.buf.definition()<CR>]],
+      ["h"]      = [[:lua vim.lsp.buf.hover()<CR>]],
+      ["i"]      = [[:lua vim.lsp.buf.implementation()<CR>]],
+      ["R"]      = [[:lua vim.lsp.buf.rename()<CR>]],
+      ["a"]      = [[:Telescope lsp_code_actions<CR>]],
+      ["r"]      = [[:Telescope lsp_references<CR>]],
+      ["gb"]     = [[:Telescope lsp_document_diagnostics<CR>]],
+      ["gw"]     = [[:Telescope lsp_workspace_diagnostics<CR>]],
+      ["/"]      = [[:Telescope lsp_document_symbols<CR>]],
+      ["g/"]     = [[:Telescope lsp_workspace_symbols<CR>]]
     }
   }
 }
@@ -98,42 +115,6 @@ set_all("nicr", { "mouse" })
 
 local nvim_lsp = require('lspconfig')
 
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
-local on_attach = function(client, bufnr)
-  --Enable completion triggered by <c-x><c-o>
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  vim.api.nvim_command [[augroup Lsp]]
-  vim.api.nvim_command [[autocmd! * *]]
-  vim.api.nvim_command [[autocmd CursorHold * lua vim.lsp.buf.hover()]]
-  vim.api.nvim_command [[augroup END]]
-  
-  local lspKeymaps = {
-    ["[g"]         = [[:lua vim.lsp.diagnostic.goto_prev()<CR>]],
-    ["]g"]         = [[:lua vim.lsp.diagnostic.goto_next()<CR>]],
-    ["<leader>"]   = {
-      ["l"]        = {
-        ["z"]      = [[:LspRestart<CR>]],
-        ["f"]      = [[:lua vim.lsp.buf.formatting()<CR>]],
-        ["D"]      = [[:lua vim.lsp.buf.declaration()<CR>]],
-        ["d"]      = [[:lua vim.lsp.buf.definition()<CR>]],
-        ["h"]      = [[:lua vim.lsp.buf.hover()<CR>]],
-        ["i"]      = [[:lua vim.lsp.buf.implementation()<CR>]],
-        ["R"]      = [[:lua vim.lsp.buf.rename()<CR>]],
-        ["a"]      = [[:Telescope lsp_code_actions<CR>]],
-        ["r"]      = [[:Telescope lsp_references<CR>]],
-        ["gb"]     = [[:Telescope lsp_document_diagnostics<CR>]],
-        ["gw"]     = [[:Telescope lsp_workspace_diagnostics<CR>]],
-        ["/"]      = [[:Telescope lsp_document_symbols<CR>]],
-        ["g/"]     = [[:Telescope lsp_workspace_symbols<CR>]]
-      }
-    }
-  }
-
-  kmap("", lspKeymaps)
-end
-
 -- check if "local-vim.lua" exists in current dir
 -- and load it as a module. Expect it to have the following interface:
 --
@@ -153,7 +134,6 @@ if f~=nil then
   local servers = localConfig.lspServers
   for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
-      on_attach = on_attach,
       flags = {
         debounce_text_changes = 500,
       }
