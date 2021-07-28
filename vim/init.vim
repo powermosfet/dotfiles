@@ -1,5 +1,6 @@
 call plug#begin('~/.vim/neovim-plugged')
   Plug 'neovim/nvim-lspconfig'
+
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-unimpaired'
   Plug 'tpope/vim-surround'
@@ -7,12 +8,15 @@ call plug#begin('~/.vim/neovim-plugged')
   Plug 'tpope/vim-speeddating'
   Plug 'tpope/vim-dispatch'
   Plug 'tpope/vim-sleuth'
+
   Plug 'MattesGroeger/vim-bookmarks'
   Plug 'SirVer/ultisnips'
+
+  " Telescope and dependencies
   Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
-"  Plug 'flazz/vim-colorschemes'
+
   Plug 'scrooloose/nerdtree', { 'on':  [ 'NERDTreeFocus', 'NERDTreeFind' ] }
 call plug#end()
 
@@ -76,7 +80,8 @@ local keymaps = {
       ["c"]    = [[:Telescope git_bcommits<cr>]],
       ["s"]    = [[:G<cr>]],
       ["f"]    = [[:Git fetch --prune<cr>]],
-      ["p"]    = [[:Git pull --ff-only<cr>]]
+      ["p"]    = [[:Git pull --ff-only<cr>]],
+      ["o"]    = [[:Git checkout ]]
     },
     ["l"]        = {
       ["z"]      = [[:LspRestart<CR>]],
