@@ -53,9 +53,14 @@ local keymaps = {
     ["v"]      = [[:tabe <c-r>=resolve($MYVIMRC)<cr><cr>]],
     ["n"]      = [[:noh<cr>]],
     ["c"]      = [[:close<cr>]],
-    ["tc"]     = [[:tabclose<cr>]],
     [","]      = [[:tabp<cr>]],
     ["."]      = [[:tabn<cr>]],
+    -- Tabs
+    ["t"]      = {
+      ["c"]    = [[:tabclose<cr>]],
+      ["o"]    = [[:tabonly<cr>]],
+      ["e"]    = [[:tabe ]],
+    },
     -- Search
     ["s"]      = {
       ["w"]    = [[:Telescope grep_string<cr>]],
