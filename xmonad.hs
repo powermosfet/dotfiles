@@ -5,6 +5,8 @@ import XMonad.Hooks.DynamicLog
 import XMonad.Layout.Spacing
 import XMonad.Util.Scratchpad
 import XMonad.Util.SpawnOnce
+import Graphics.X11.ExtraTypes.XF86  
+import XMonad.Util.EZConfig
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
@@ -93,7 +95,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- mod-shift-{w,e,r}, Move client to screen 1, 2, or 3
     --
     [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
-        | (key, sc) <- zip [xK_r, xK_d, xK_w] [0..]
+        | (key, sc) <- zip [xK_w, xK_d, xK_r] [0..]
         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
 
 
@@ -114,9 +116,10 @@ myLayout = tiled ||| Mirror tiled ||| Full
     delta   = 3/100
 
 myStartupHook = do
-  spawnOnce "stalonetray"
+  spawnOnce "ibus-daemon -drxR"
+  spawnOnce "trayer --edge top --align right --expand false --monitor primary"
   spawnOnce "nextcloud"
-  spawnOnce "blueman-tray"
+  spawnOnce "blueman-applet"
   spawnOnce "nm-applet"
 
 myManageHook = composeAll
@@ -136,10 +139,7 @@ myPP = xmobarPP { ppCurrent = xmobarColor "#429942" "" . wrap "[" "]" }
 toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
 
 
-------------------------------------------------------------------------
--- Now run xmonad with all the defaults we set up.
-
-main = xmonad =<< statusBar myBar myPP toggleStrutsKey def {
+myConfig = def {
       -- simple stuff
           terminal           = myTerminal
         , borderWidth        = myBorderWidth
@@ -155,3 +155,16 @@ main = xmonad =<< statusBar myBar myPP toggleStrutsKey def {
         , startupHook        = myStartupHook
         , manageHook         = myManageHook <+> manageHook def
     }
+    `additionalKeysP`
+    [ ("<XF86MonBrightnessUp>",   spawn "xbacklight +20")
+    , ("<XF86MonBrightnessDown>", spawn "xbacklight -20")
+    , ("<XF86AudioRaiseVolume>",  spawn "amixer set Master 20+ unmute")
+    , ("<XF86AudioLowerVolume>",  spawn "amixer set Master 20- unmute")
+    , ("<XF86AudioMute>",         spawn "amixer set Master toggle")
+    ]
+
+------------------------------------------------------------------------
+-- Now run xmonad with all the defaults we set up.
+
+main = xmonad =<< statusBar myBar myPP toggleStrutsKey myConfig
+

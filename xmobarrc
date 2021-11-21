@@ -1,6 +1,6 @@
 Config { 
    -- appearance
-     font =         "xft:Fira Code:size=9:bold:antialias=true"
+     font =         "xft:Fira Code:size=12:bold:antialias=true"
    , bgColor =      "#101010"
    , fgColor =      "#A4A4A4"
    , position =     TopW L 90
@@ -13,11 +13,11 @@ Config {
    , template = "%StdinReader% | %battery% | %multicpu% | %coretemp% | %memory% | %dynnetwork% }{ %date% || %kbd% "
 
    -- general behavior
-   , lowerOnStart =     True    -- send to bottom of window stack on start
+   , lowerOnStart =     False   -- send to bottom of window stack on start
    , hideOnStart =      False   -- start with window unmapped (hidden)
    , allDesktops =      True    -- show on all desktops
    , overrideRedirect = True    -- set the Override Redirect flag (Xlib)
-   , pickBroadest =     False   -- choose widest display (multi-monitor)
+   , pickBroadest =     True    -- choose widest display (multi-monitor)
    , persistent =       True    -- enable/disable hiding (True = disabled)
 
    , commands = 
@@ -33,7 +33,7 @@ Config {
                              ] 10
 
         -- cpu activity monitor
-        , Run MultiCpu       [ "--template" , "Cpu: <total0>%|<total1>%"
+        , Run MultiCpu       [ "--template" , "Cpu: <total0>%|<total1>%|<total2>%|<total3>%"
                              , "--Low"      , "50"         -- units: %
                              , "--High"     , "85"         -- units: %
                              , "--low"      , "lightgreen"
@@ -42,7 +42,7 @@ Config {
                              ] 10
 
         -- cpu core temperature monitor
-        , Run CoreTemp       [ "--template" , "Temp: <core0>°C|<core1>°C"
+        , Run CoreTemp       [ "--template" , "Temp: <core0>°C"
                              , "--Low"      , "70"        -- units: °C
                              , "--High"     , "80"        -- units: °C
                              , "--low"      , "lightgreen"
@@ -82,8 +82,8 @@ Config {
 
         -- keyboard layout indicator
         , Run Kbd            [ ("us(dvorak)" , "<fc=#00008B>DV</fc>")
-                             , ("us"         , "<fc=#8B0000>US</fc>")
-                             , ("us(altgr-intl)" , "<fc=#00008B>ED</fc>")
+                             , ("us"         , "<fc=#8B8B8B>US</fc>")
+                             , ("us(altgr-intl)" , "<fc=#8B8B8B>ED</fc>")
                              ]
         , Run StdinReader
         ]
