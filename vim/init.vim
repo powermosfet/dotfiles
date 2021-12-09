@@ -20,6 +20,9 @@ call plug#begin('~/.vim/neovim-plugged')
   Plug 'nvim-lua/plenary.nvim'
   Plug 'nvim-telescope/telescope.nvim'
 
+  " Languages
+  Plug 'LnL7/vim-nix'
+
   Plug 'scrooloose/nerdtree', { 'on':  [ 'NERDTreeFocus', 'NERDTreeFind' ] }
 call plug#end()
 
