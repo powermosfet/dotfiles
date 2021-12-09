@@ -12,6 +12,8 @@ call plug#begin('~/.vim/neovim-plugged')
   Plug 'MattesGroeger/vim-bookmarks'
   Plug 'SirVer/ultisnips'
   Plug 'rafi/awesome-vim-colorschemes'
+  Plug 'kyazdani42/nvim-web-devicons'
+  Plug 'romgrk/barbar.nvim'
 
   " Telescope and dependencies
   Plug 'nvim-lua/popup.nvim'
@@ -48,8 +50,8 @@ g.mapleader = " "
 g.maplocalleader = " "
 
 local keymaps = {
-  ["<BS>"]        = [[:tabp<CR>]],
-  ["<TAB>"]       = [[:tabn<CR>]],
+  ["<BS>"]        = [[:BufferPrevious<CR>]],
+  ["<TAB>"]       = [[:BufferNext<CR>]],
   ["[g"]          = [[:lua vim.lsp.diagnostic.goto_prev()<CR>]],
   ["]g"]          = [[:lua vim.lsp.diagnostic.goto_next()<CR>]],
   ["<leader>"]    = {
