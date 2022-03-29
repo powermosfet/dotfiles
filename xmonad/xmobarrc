@@ -1,0 +1,49 @@
+Config { 
+   -- appearance
+     font =         "xft:Fira Code:size=12:bold:antialias=true"
+   , bgColor =      "#101010"
+   , fgColor =      "#A4A4A4"
+   , position =     TopW L 95
+
+   -- layout
+   , sepChar =  "%"   -- delineator between plugin names and straight text
+   , alignSep = "}{"  -- separator between left-right alignment
+   , template = "%StdinReader% }{ %battery% | %date% || %kbd% "
+
+   -- general behavior
+   , lowerOnStart =     False   -- send to bottom of window stack on start
+   , hideOnStart =      False   -- start with window unmapped (hidden)
+   , allDesktops =      True    -- show on all desktops
+   , overrideRedirect = True    -- set the Override Redirect flag (Xlib)
+   , pickBroadest =     True    -- choose widest display (multi-monitor)
+   , persistent =       True    -- enable/disable hiding (True = disabled)
+
+   , commands = 
+       [ Run Battery        [ "--template" , "Batt: <acstatus>"
+                             , "--Low"      , "10"        -- units: %
+                             , "--High"     , "80"        -- units: %
+                             , "--low"      , "#AAAAAA"
+                             , "--normal"   , "#999999"
+                             , "--high"     , "lightgreen"
+
+                             , "--" -- battery specific options
+                                       -- discharging status
+                                       , "-o"	, "<left>% (<timeleft>)"
+                                       -- AC "on" status
+                                       , "-O"	, "<fc=#dAA520>Charging</fc>"
+                                       -- charged status
+                                       , "-i"	, "<fc=#00C000>Charged</fc>"
+                             ] 50
+
+        -- time and date indicator 
+        --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
+        , Run Date           "<fc=#ABABAB>%F (%a) %T</fc>" "date" 10
+
+        -- keyboard layout indicator
+        , Run Kbd            [ ("us(dvorak)" , "<fc=#00008B>DV</fc>")
+                             , ("us"         , "<fc=#8B8B8B>US</fc>")
+                             , ("us(altgr-intl)" , "<fc=#8B8B8B>ED</fc>")
+                             ]
+        , Run StdinReader
+        ]
+   }
