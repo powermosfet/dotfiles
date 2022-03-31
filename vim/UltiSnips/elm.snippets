@@ -5,8 +5,13 @@ endsnippet
 
 snippet let "Let in" 
 let
-    ${1:name} = ${2:value}
+    $0
 in
+endsnippet
+
+snippet v "variable in let block"
+$1 : ${2:Never}
+${1:name} = ${3:value}
 endsnippet
 
 snippet mod "Module declaration"
@@ -24,14 +29,14 @@ for dir in dirs:
 $0
 endsnippet
 
-snippet none "Update response doing nothing"
+snippet noop "Update response doing nothing"
 ( ${1:model}
 , ${2:Effects.none}
 )
 endsnippet
 
 snippet m "Update a field in the model"
-{ ${1:model} | ${2:field} =  ${3:value} }
+{ ${1:model} | ${2:field} = ${3:$2} }
 endsnippet
 
 snippet c "Case expression with a single branch"
@@ -46,19 +51,117 @@ case ${1:result} of
 endsnippet
 
 snippet dialogData "Default dialogData implementation"
-{-| Converts dialog type to dialog config and content
+{-| Returns Dialog data if a dialog should be shown.
 -}
-dialogData : Runtime.ServiceData tab invalidProperty -> Model -> Dialog -> Popup.DialogData Msg
-dialogData { lang } _ dialog =
+dialogData : ServiceData -> Model -> Maybe (Popup.DialogData Msg)
+dialogData serviceData {dialog} =
+    Maybe.map (dialogDataFromDialog serviceData) dialog
+
+{-| Converts dialog type to dialog config and content.
+-}
+dialogDataFromDialog : ServiceData -> Dialog -> Popup.DialogData Msg
+dialogDataFromDialog { lang } dialog =
     case dialog of
         ${1:SomeDialog} ->
-            Popup.confirmData
-                { title = "Dialog title"
-                , description = "Dialog description"
-                , yesMsg = ${2:YesMsg}
-                , yesText = Translation.commonYes lang
-                , noMsg = ${3:CloseDialog}
-                , noText = Translation.commonNo lang
-                }
+            { config = 
+                Dialog.defaultConfig
+                    |> Dialog.withEasyClose DialogClosed
+            , content = []
+            }
 endsnippet
 
+snippet confirmationDialog "Confirmation Dialog"
+Popup.confirmData
+    { title = "Dialog title"
+    , description = "Dialog description"
+    , yesMsg = ${1:YesMsg}
+    , yesText = Translation.commonYes lang
+    , noMsg = ${2:DialogClosed}
+    , noText = Translation.commonNo lang
+    }
+endsnippet
+
+snippet alertData "Default alertData implementation"
+alertData : ServiceData -> Model -> Maybe (Popup.AlertData Msg)
+alertData serviceData model =
+    Maybe.map (alertDataFromAlert serviceData) model.alert
+
+
+alertDataFromAlert : ServiceData -> Alert -> Popup.AlertData Msg
+alertDataFromAlert ({ lang, errorMessage } as serviceData) alert =
+    case alert of
+        ${1:GeneralErrorAlert} ->
+            { type_ = Alert.Error
+            , onClose = AlertClosed
+            , content =
+                [ $0
+                ]
+            }
+endsnippet
+
+snippet todo "Call Debug.todo"
+Debug.todo "${1:unimplemented}"
+endsnippet
+
+snippet { "new Record"
+{ ${1:attr} = ${2:$1}
+}
+endsnippet
+
+snippet , "Record attribute"
+, ${1:attr} = $1
+endsnippet
+
+snippet msgFromJsEffects "minimal msgFromJsEffects implementation"
+{-| Decodes JS data into message for Elm.
+-}
+msgFromJsEffects : ServiceData -> Model -> MsgFromJs.Effects Msg
+msgFromJsEffects _ _ =
+    MsgFromJs.subscribe moduleName
+        [ ( "${1:NoOp}"
+          , MsgFromJs.succeed $1
+          )
+        ]
+endsnippet
+
+snippet invalidProperty "Invalid property type and parser"
+-- INVALID PROPERTY
+
+
+{-| Page form invalid property
+-}
+type InvalidProperty
+    = ${1:FartsProperty}
+
+
+{-| Parse invalid properties
+-}
+invalidPropertyParser : Parser InvalidProperty
+invalidPropertyParser =
+    Parser.oneOf
+        [ Parser.succeed $1
+            |. Parser.keyword "$1"
+        ]
+endsnippet
+
+snippet msgForJs "Msg for js sendMsgToJs"
+-- MSG FOR JS
+
+
+{-| Type of messages which can be sent to JavaScript
+-}
+type MsgForJs
+    = ${1:StuffHappenedInElm}
+
+
+{-| Sends data to JavaScript based on given message
+-}
+sendMsgToJs : MsgForJs -> Runtime.Effects msg
+sendMsgToJs msg =
+    case msg of
+        $1 ->
+            Runtime.sendMsgToJs
+                { tag = "$1"
+                , data = Encode.null
+                }
+endsnippet

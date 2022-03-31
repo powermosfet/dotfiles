@@ -1,5 +1,8 @@
 snippet fn "Function" 
-function ${1:LaunchMissiles} (${2:num}) {
+/**
+ * $3.
+ */
+function ${1:LaunchMissiles}(${2:num}) {
     $0
 }
 endsnippet
@@ -14,4 +17,10 @@ endsnippet
 
 snippet att "Object attribute"
 $1: ${2:$1},
+endsnippet
+
+snippet doc "function documentation"
+/**
+ * $0.
+ */
 endsnippet

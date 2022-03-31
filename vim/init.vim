@@ -10,10 +10,14 @@ call plug#begin('~/.vim/neovim-plugged')
   Plug 'tpope/vim-sleuth'
 
   Plug 'MattesGroeger/vim-bookmarks'
+  Plug 'tom-anders/telescope-vim-bookmarks.nvim'
   Plug 'SirVer/ultisnips'
-  Plug 'rafi/awesome-vim-colorschemes'
+  Plug 'sonph/onehalf', {'rtp': 'vim/'}
+  Plug 'jacoborus/tender.vim'
   Plug 'kyazdani42/nvim-web-devicons'
   Plug 'romgrk/barbar.nvim'
+  Plug 'hrsh7th/nvim-compe'
+  Plug 'folke/trouble.nvim'
 
   " Telescope and dependencies
   Plug 'nvim-lua/popup.nvim'
@@ -37,6 +41,41 @@ lua << EOF
 local g = vim.g
 local api = vim.api
 
+vim.o.completeopt = "menuone,noselect"
+require'compe'.setup {
+  enabled = true;
+  autocomplete = true;
+  debug = false;
+  min_length = 1;
+  preselect = 'disable';
+  throttle_time = 80;
+  source_timeout = 200;
+  resolve_timeout = 800;
+  incomplete_delay = 400;
+  max_abbr_width = 100;
+  max_kind_width = 100;
+  max_menu_width = 100;
+  documentation = {
+    border = { '', '' ,'', ' ', '', '', '', ' ' }, -- the border option is the same as `|help nvim_open_win|`
+    winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
+    max_width = 120,
+    min_width = 60,
+    max_height = math.floor(vim.o.lines * 0.3),
+    min_height = 1,
+  };
+
+  source = {
+    path = true;
+    buffer = true;
+    calc = true;
+    nvim_lsp = true;
+    nvim_lua = true;
+    vsnip = true;
+    ultisnips = true;
+    luasnip = true;
+  };
+}
+
 local keymapOptions = { noremap=true, silent=false }
 
 function kmap(prefix, definitions) 
@@ -55,6 +94,8 @@ g.maplocalleader = " "
 local keymaps = {
   ["<BS>"]        = [[:BufferPrevious<CR>]],
   ["<TAB>"]       = [[:BufferNext<CR>]],
+  ["<C-BS>"]      = [[:BufferMovePrevious<CR>]],
+  ["<C-TAB>"]     = [[:BufferMoveNext<CR>]],
   ["[g"]          = [[:lua vim.lsp.diagnostic.goto_prev()<CR>]],
   ["]g"]          = [[:lua vim.lsp.diagnostic.goto_next()<CR>]],
   ["<leader>"]    = {
@@ -79,6 +120,7 @@ local keymaps = {
       ["l"]       = [[:Telescope buffers<cr>]],
       ["o"]       = [[:b#<cr>]],
       ["d"]       = [[:bd<cr>]],
+      ["c"]       = [[:BufferClose<cr>]],
     },
     -- Files
     ["f"]         = {
@@ -90,6 +132,7 @@ local keymaps = {
     -- Git
     ["g"]         = {
       ["<space>"] = [[:G ]],
+      ["g"]       = [[:G blame<cr>]],
       ["b"]       = [[:Telescope git_branches<cr>]],
       ["c"]       = [[:Telescope git_bcommits<cr>]],
       ["s"]       = [[:G<cr>]],
@@ -113,10 +156,18 @@ local keymaps = {
       ["/"]       = [[:Telescope lsp_document_symbols<CR>]],
       ["g/"]      = [[:Telescope lsp_workspace_symbols<CR>]]
     }
+  },
+  -- vim-bookmarks
+  ["m"]           = {
+    ["l"]         = [[:Telescope vim_bookmarks current_file<cr>]],
+    ["L"]         = [[:Telescope vim_bookmarks all<cr>]]
   }
+
 }
 
 kmap("", keymaps)
+
+require('telescope').load_extension('vim_bookmarks')
 
 -- OPTIONS
 
@@ -147,7 +198,7 @@ local nvim_lsp = require('lspconfig')
 local f=io.open('local-vim.lua','r')
 if f~=nil then
   io.close(f)
-  local localConfig = require('local-vim')
+  local localConfig = loadfile('./local-vim.lua')()
 
   -- Use a loop to conveniently call 'setup' on multiple servers and
   -- map buffer local keybindings when the language server attaches
@@ -165,4 +216,5 @@ if f~=nil then
 
   localConfig.config()
 end
+
 EOF
