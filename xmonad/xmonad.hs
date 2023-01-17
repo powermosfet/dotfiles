@@ -69,7 +69,8 @@ myConfig = def {
     , ("<XF86AudioLowerVolume>",  spawn "amixer set Master 20- unmute")
     , ("<XF86AudioMute>",         spawn "amixer set Master toggle")
     , ("M-p",                     spawn "rofi -show run")
-    , ("M-z",                     spawn "systemctl suspend")
+    , ("C-M-q",                   spawn "systemctl suspend")
+    , ("C-M-s",                   spawn "~/.screenlayout/menu")
     , ("M1-<Space>",              spawn "xkb-switch -n")
     ]
 

@@ -14,3 +14,19 @@ pkgs.mkShell {
   '';
 }
 endsnippet
+
+snippet module "NixOS module"
+{ pkgs, ... }:
+
+{
+  imports =
+    [
+    ];
+
+  options = {
+  };
+
+  config = {
+  };
+}
+endsnippet

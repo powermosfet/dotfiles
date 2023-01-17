@@ -1,0 +1,27 @@
+snippet version "Version declaration" 
+\version "${1:2.22.2}"
+endsnippet
+
+snippet header "Default header" 
+\header {
+  title = "${1:Beautiful piece}"${2:
+  subtitle = "${3:At piece with the world}"}
+  composer = "${4:Johan Sebastian Bach}"${5:
+  arranger = "Arr: ${6:Friedrich Nietsche}"}
+  instrument = "${7:Horn i Ess}"
+}
+endsnippet
+
+snippet tocoda "To Coda" 
+\mark \markup { "To Coda" \musicglyph "scripts.coda" }
+endsnippet
+
+snippet repeatVolta "Volta repeat with two alternatives" 
+\repeat volta ${1:2} {
+  $2
+}
+\alternative {
+  { $3 }
+  { $4 }
+}
+endsnippet
